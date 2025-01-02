@@ -16,10 +16,7 @@ const App = () => {
   console.log("APP: alertVisible is: ", alertVisible)
   return (
     <div>
-      {alertVisible && <Alert onClose={()=>setAlertVisibility(false)}>My Alert</Alert>}
-      <h1>React with TypeScript - 2</h1>
-      <Navigation />
-      <Button onClick= {() => setAlertVisibility(true)}>Nadav's Button</Button>
+      <h1>Welcome to RecipEasy!</h1>
     </div>
   );
 }
