@@ -16,9 +16,10 @@
     "lint": "tslint -c \"tslint.json\" -e \"node_modules/**/*\" --project \"tsconfig.json\" \"./src/**/*.ts*\""
   },
   "dependencies": {
+    "17": "^0.0.0",
     "bootstrap": "^5.3.3",
     "react": "^16.5.2",
-    "react-dom": "^16.5.2",
+    "react-dom": "^16.14.0",
     "react-hot-loader": "^4.3.11",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1"
