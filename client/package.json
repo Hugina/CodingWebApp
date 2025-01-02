@@ -9,13 +9,14 @@
     "url": "https://github.com/locnguyen/react-with-typescript"
   },
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js",
+    "start": "webpack serve --config ./webpack.config.js",
     "prettier": "prettier \"src/**/*.{ts,tsx,js,jsx}\"",
     "prettier:check": "npm run prettier -- --list-different",
     "prettier:write": "npm run prettier -- --write",
     "lint": "tslint -c \"tslint.json\" -e \"node_modules/**/*\" --project \"tsconfig.json\" \"./src/**/*.ts*\""
   },
   "dependencies": {
+    "bootstrap": "^5.3.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-hot-loader": "^4.3.11",
@@ -33,16 +34,20 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/webpack-env": "^1.13.6",
     "babel-loader": "^8.0.2",
-    "fork-ts-checker-webpack-plugin": "^0.4.9",
-    "html-webpack-plugin": "^3.2.0",
+    "css-loader": "^7.1.2",
+    "fork-ts-checker-webpack-plugin": "^9.0.2",
+    "html-webpack-plugin": "^5.6.3",
     "prettier": "^1.14.3",
+    "sass": "^1.83.0",
+    "sass-loader": "^16.0.4",
     "source-map-loader": "^0.2.1",
-    "ts-loader": "^5.2.0",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
     "tslint": "^5.11.0",
     "tslint-microsoft-contrib": "^5.2.1",
     "typescript": "^3.0.3",
-    "webpack": "^4.20.1",
-    "webpack-cli": "^3.1.1",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^3.1.9"
   }
 }

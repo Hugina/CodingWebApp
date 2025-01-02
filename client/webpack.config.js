@@ -17,7 +17,7 @@ module.exports = {
     },
 
     devServer: {
-        port: 8080,
+        port: 8085,
         compress: true,
         hot: true,
         historyApiFallback: true,
@@ -55,13 +55,19 @@ module.exports = {
                 enforce: 'pre',
                 test: /\.js$/,
                 use: 'source-map-loader'
+            }, 
+            {
+                
+                    test: /\.(sa|sc|c)ss$/,
+                    use: ["style-loader", "css-loader", "sass-loader"]
+                  
             }
         ]
     },
 
     plugins: [
         new ForkTsCheckerWebpackPlugin(),
-        new webpack.NamedModulesPlugin(),
+        // new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             title: 'react-with-typescript',
