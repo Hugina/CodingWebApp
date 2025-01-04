@@ -15,9 +15,6 @@ import RecipeScreen from './components/RecipeScreen';
 const App = () => {
   return (
     <div>
-      <div className="Nadav">Logo</div>
-      <hr />
-      {/* <div>NavBar</div> */}
       <RecipeScreen />
     </div>
   );
