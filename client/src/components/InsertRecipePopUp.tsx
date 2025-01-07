@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 //import * as client from '../RecipeServerClient';
-import './RecipeScreen.css';
+import './InsertRecipePopUp.css';
 
 export default function RecipeScreen() {
   const [modal, setModal] = useState(false); //this hook will be used to toggle the modal window
