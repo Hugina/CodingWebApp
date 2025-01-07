@@ -19,14 +19,14 @@
     "17": "^0.0.0",
     "bootstrap": "^5.3.3",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "7.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",
     "@types/history": "^4.7.0",
     "@types/node": "^10.11.0",
     "@types/react": "^17.0.2",
-    "@types/react-dom": "^16.0.7",
     "@types/react-hot-loader": "^4.1.0",
     "@types/webpack-env": "^1.13.6",
     "babel-loader": "^8.0.2",
