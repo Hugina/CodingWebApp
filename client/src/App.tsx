@@ -10,6 +10,7 @@ import './App.css';
 import InsertRecipePopUp from './components/InsertRecipePopUp';
 import HomePage from './components/HomePage';
 import SavedRecipesScreen from './components/SavedRecipesScreen';
+import { hot } from 'react-hot-loader';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
   }
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('app')!).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
