@@ -21,8 +21,10 @@ module.exports = {
         compress: true,
         hot: true,
         historyApiFallback: true,
-        contentBase: path.join(__dirname, 'dist'),
-        publicPath: '/'
+        static: {
+            directory: path.join(__dirname, 'dist'),
+        } 
+        // publicPath: '/'
     },
 
     // Enable sourcemaps for debugging webpack's output.
