@@ -7,10 +7,9 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
-import InsertRecipePopUp from './components/InsertRecipePopUp';
 import HomePage from './components/HomePage';
 import SavedRecipesScreen from './components/SavedRecipesScreen';
-import { hot } from 'react-hot-loader';
+import NotFoundPage from './components/NotFoundPage';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: '/saved-recipes',
     element: <SavedRecipesScreen />
+  },
+  {
+    path: '*', // catch-all route
+    element: <NotFoundPage />
   }
 ]);
 
