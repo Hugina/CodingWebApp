@@ -11,6 +11,4 @@ const getRecipes: () => Recipe[] = () => {
 }
 
 
-export default {
-    getRecipes
-}
+export default getRecipes;
