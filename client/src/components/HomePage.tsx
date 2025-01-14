@@ -1,16 +1,16 @@
-import * as React from 'react';
+import React from 'react';
 
 const HomePage = () => {
   const codeBlocks = [
     { id: 1, name: 'Async Case' },
-    { id: 2, name: 'Closure Example' },
-    { id: 3, name: 'Array Manipulation' },
-    { id: 4, name: 'Factorial Function' }
+    { id: 2, name: 'Add Two Numbers' },
+    { id: 3, name: 'Find Factorial' },
+    { id: 4, name: 'Reverse String' }
   ];
 
   return (
     <div>
-      <h2>Choose Code Block</h2>
+      <h1>Choose Code Block</h1>
       <ul>
         {codeBlocks.map(block => (
           <li key={block.id}>
@@ -18,9 +18,6 @@ const HomePage = () => {
           </li>
         ))}
       </ul>
-      <p>
-        <a href="/saved-recipes">Go to my saved recipes</a>
-      </p>
     </div>
   );
 };
