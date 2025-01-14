@@ -3,20 +3,28 @@ import InsertRecipePopUp from './InsertRecipePopUp';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
-  //const navigate = useNavigate();
-  //const handleNavigate = () => {
-  //  navigate('/saved-recipes');
-  // };
+  const codeBlocks = [
+    { id: 1, name: 'Async Case' },
+    { id: 2, name: 'Closure Example' },
+    { id: 3, name: 'Array Manipulation' },
+    { id: 4, name: 'Factorial Function' }
+  ];
   return (
     <div>
-      <h2>Welcome To Recipeasy!</h2>
-      <p>Here you can find recipes for all your favorite dishes!</p>
-      <InsertRecipePopUp />
-      <p />
-      <a href="/saved-recipes">Go to my saved recipes</a>
+      <h2>Choose Code Block</h2>
+      <ul>
+        {codeBlocks.map(block => (
+          <li key={block.id}>
+            <a href={`/code-block/${block.id}`}>{block.name}</a>
+          </li>
+        ))}
+      </ul>
+
+      <p>
+        <a href="/saved-recipes">Go to my saved recipes</a>
+      </p>
     </div>
   );
-  // Remove the unnecessary closing curly brace
 };
 
 export default HomePage;
