@@ -23,7 +23,14 @@ const SavedRecipesScreen = () => {
       <p>Here are your saved recipes:</p>
       <ul>
         {recipes.map((recipe, index) => (
-          <li key={index}>{recipe.name}</li>
+          <li key={index}>
+            <strong>{recipe.name}</strong>
+            <ul>
+              {recipe.ingredients.map((ingredient: string, index: number) => (
+                <li key={index}>{ingredient}</li>
+              ))}
+            </ul>
+          </li>
         ))}
       </ul>
       <a href="/">Go back to Home Page</a>
