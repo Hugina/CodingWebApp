@@ -13,8 +13,9 @@ const io = new Server(server, {
 
 const codeBlockData = {}; // Store the current code for each code block
 const mentors = {}; // Store the mentor for each code block
+const studentCounts = {}; // Track the number of students in each room
+const socketToRoom = {}; // Map sockets to rooms (code blocks)
 
-// Predefined solutions for each code block
 const solutions = {
   1: 'console.log("Hello, World!");',
   2: 'function add(a, b) { return a + b; }',
@@ -22,67 +23,108 @@ const solutions = {
   4: 'function factorial(n) { return n <= 1 ? 1 : n * factorial(n - 1); }',
 };
 
+const initialTemplates = {
+  1: `// Task: Print "Hello, World!" to the console.
+// In this task, you should print the message "Hello, World!" to the console.
+console.log();`, // Template for "Async Case"
+
+  2: `// Task: Write a function to add two numbers.
+// In this task, you should complete the function to return the sum of two numbers.
+function add(a, b) {
+  // Your code here
+}`, // Template for "Closure Example"
+
+  3: `// Task: Multiply each number in the array by 2.
+// In this task, you should create a new array where each element is multiplied by 2.
+const numbers = [1, 2, 3, 4, 5];
+// Your code here
+`, // Template for "Array Manipulation"
+
+  4: `// Task: Write a recursive function to calculate the factorial of a number.
+// In this task, you should complete the function to return the factorial of a given number.
+function factorial(n) {
+  // Your code here
+}`, // Template for "Factorial Function"
+};
+
+
+
+
 io.on('connection', (socket) => {
   console.log(`A user connected: ${socket.id}`);
 
-  // Handle when a user joins a specific code block
   socket.on('join-code-block', (codeBlockId) => {
-    console.log(`User ${socket.id} joined code block ${codeBlockId}`);
     socket.join(codeBlockId);
-
-    // Assign mentor role if none exists
+    socketToRoom[socket.id] = codeBlockId; // Track the room this socket joined
+  
     if (!mentors[codeBlockId]) {
       mentors[codeBlockId] = socket.id;
-      socket.emit('role', 'mentor'); // Notify user of their role
-      console.log(`User ${socket.id} is now the mentor for code block ${codeBlockId}`);
+      socket.emit('role', 'mentor'); // Assign role as mentor
+      console.log(`User ${socket.id} is the mentor for code block ${codeBlockId}`);
     } else {
-      socket.emit('role', 'student'); // Notify user of their role
-      console.log(`User ${socket.id} is now a student for code block ${codeBlockId}`);
+      socket.emit('role', 'student'); // Assign role as student
+      studentCounts[codeBlockId] = (studentCounts[codeBlockId] || 0) + 1;
+      io.to(codeBlockId).emit('student-count', studentCounts[codeBlockId]); // Broadcast updated count
     }
-
-    // Send the current code to the user if it exists
+  
+    // Send the current code or the initial template to the user
     if (codeBlockData[codeBlockId]) {
       socket.emit('update-code', codeBlockData[codeBlockId]);
+    } else if (initialTemplates[codeBlockId]) {
+      codeBlockData[codeBlockId] = initialTemplates[codeBlockId]; // Set initial template as the starting code
+      socket.emit('update-code', initialTemplates[codeBlockId]);
     }
   });
-
-  // Handle code changes
+  
   socket.on('code-change', ({ codeBlockId, newCode }) => {
-    codeBlockData[codeBlockId] = newCode; // Save the latest code for the block
-    console.log(`Code updated for code block ${codeBlockId}:`, newCode);
-
+    codeBlockData[codeBlockId] = newCode;
+  
+    // Remove comments from the user code
+    const removeComments = (code) => code.replace(/\/\/.*|\/\*[^]*?\*\//g, '').trim();
+  
+    const cleanedUserCode = removeComments(newCode);
+    const cleanedSolution = removeComments(solutions[codeBlockId] || '');
+  
     // Check if the submitted code matches the solution
-    if (solutions[codeBlockId] && newCode.trim() === solutions[codeBlockId]) {
-      console.log(`Code block ${codeBlockId}: Solution matched!`);
-      io.to(codeBlockId).emit('solution-matched'); // Notify all clients of the match
+    if (cleanedUserCode === cleanedSolution) {
+      io.to(codeBlockId).emit('solution-matched'); // Notify clients of a match
     } else {
-      io.to(codeBlockId).emit('solution-not-matched'); // Notify clients if the code doesn't match
+      io.to(codeBlockId).emit('solution-not-matched'); // Notify clients of no match
     }
-
-    // Broadcast the updated code to all other clients in the room
-    socket.to(codeBlockId).emit('update-code', newCode);
+  
+    if (codeBlockData[codeBlockId]) {
+      socket.to(codeBlockId).emit('update-code', newCode);
+    }
   });
+  
+  
 
-  // Handle user disconnection
   socket.on('disconnect', () => {
     console.log(`A user disconnected: ${socket.id}`);
 
-    // Check if the disconnecting user was a mentor
-    for (const codeBlockId in mentors) {
-      if (mentors[codeBlockId] === socket.id) {
-        console.log(`Mentor ${socket.id} disconnected from code block ${codeBlockId}`);
+    const codeBlockId = socketToRoom[socket.id]; // Get the room this socket was part of
+    delete socketToRoom[socket.id]; // Clean up mapping
 
-        // Notify all students in the room and reset the code
-        io.to(codeBlockId).emit('mentor-disconnected');
-        delete codeBlockData[codeBlockId];
-        delete mentors[codeBlockId];
-        break;
-      }
+    if (!codeBlockId) {
+      return; // If the socket wasn't in a room, exit early
+    }
+
+    // Check if the disconnecting user is a mentor
+    if (mentors[codeBlockId] === socket.id) {
+      console.log(`Mentor ${socket.id} disconnected from code block ${codeBlockId}`);
+      io.to(codeBlockId).emit('mentor-disconnected'); // Notify all users in room
+      delete mentors[codeBlockId];
+      delete codeBlockData[codeBlockId];
+      studentCounts[codeBlockId] = 0;
+      io.to(codeBlockId).emit('student-count', 0); // Reset student count
+    } else {
+      // Decrement student count if the user was a student
+      studentCounts[codeBlockId] = Math.max(0, (studentCounts[codeBlockId] || 1) - 1);
+      io.to(codeBlockId).emit('student-count', studentCounts[codeBlockId]);
     }
   });
 });
 
-const PORT = 4000;
-server.listen(PORT, () => {
-  console.log(`WebSocket server is running on http://localhost:${PORT}`);
+server.listen(4000, () => {
+  console.log('WebSocket server is running on http://localhost:4000');
 });
