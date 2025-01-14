@@ -1,6 +1,4 @@
 import * as React from 'react';
-import InsertRecipePopUp from './InsertRecipePopUp';
-import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const codeBlocks = [
@@ -9,6 +7,7 @@ const HomePage = () => {
     { id: 3, name: 'Array Manipulation' },
     { id: 4, name: 'Factorial Function' }
   ];
+
   return (
     <div>
       <h2>Choose Code Block</h2>
@@ -19,7 +18,6 @@ const HomePage = () => {
           </li>
         ))}
       </ul>
-
       <p>
         <a href="/saved-recipes">Go to my saved recipes</a>
       </p>
