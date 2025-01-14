@@ -9,6 +9,7 @@ const CodeBlockPage = () => {
   const codeBlockId = window.location.pathname.split('/').pop(); // Extract `id` from URL
   const [code, setCode] = useState('');
   const [role, setRole] = useState<'mentor' | 'student' | null>(null); // Role of the user
+  const [solutionMatched, setSolutionMatched] = useState(false); // Solution match state
 
   useEffect(() => {
     if (codeBlockId) {
@@ -27,6 +28,16 @@ const CodeBlockPage = () => {
         setCode(updatedCode);
       });
 
+      // Handle solution matching
+      socket.on('solution-matched', () => {
+        console.log('Solution matched!');
+        setSolutionMatched(true); // Show the smiley face
+      });
+
+      socket.on('solution-not-matched', () => {
+        setSolutionMatched(false); // Hide the smiley face
+      });
+
       // Handle mentor disconnection
       socket.on('mentor-disconnected', () => {
         console.log('Mentor disconnected. Redirecting to home...');
@@ -37,6 +48,8 @@ const CodeBlockPage = () => {
       return () => {
         socket.off('role');
         socket.off('update-code');
+        socket.off('solution-matched');
+        socket.off('solution-not-matched');
         socket.off('mentor-disconnected');
       };
     } else {
@@ -68,6 +81,7 @@ const CodeBlockPage = () => {
         cols={50}
         disabled={role === 'mentor'} // Disable editing for mentors
       />
+      {solutionMatched && <div style={{ fontSize: '3em', color: 'green' }}>😊</div>}
       <p>
         <a href="/">Back to Home</a>
       </p>

@@ -14,6 +14,14 @@ const io = new Server(server, {
 const codeBlockData = {}; // Store the current code for each code block
 const mentors = {}; // Store the mentor for each code block
 
+// Predefined solutions for each code block
+const solutions = {
+  1: 'console.log("Hello, World!");',
+  2: 'function add(a, b) { return a + b; }',
+  3: '[1, 2, 3].map(x => x * 2);',
+  4: 'function factorial(n) { return n <= 1 ? 1 : n * factorial(n - 1); }',
+};
+
 io.on('connection', (socket) => {
   console.log(`A user connected: ${socket.id}`);
 
@@ -42,6 +50,14 @@ io.on('connection', (socket) => {
   socket.on('code-change', ({ codeBlockId, newCode }) => {
     codeBlockData[codeBlockId] = newCode; // Save the latest code for the block
     console.log(`Code updated for code block ${codeBlockId}:`, newCode);
+
+    // Check if the submitted code matches the solution
+    if (solutions[codeBlockId] && newCode.trim() === solutions[codeBlockId]) {
+      console.log(`Code block ${codeBlockId}: Solution matched!`);
+      io.to(codeBlockId).emit('solution-matched'); // Notify all clients of the match
+    } else {
+      io.to(codeBlockId).emit('solution-not-matched'); // Notify clients if the code doesn't match
+    }
 
     // Broadcast the updated code to all other clients in the room
     socket.to(codeBlockId).emit('update-code', newCode);
