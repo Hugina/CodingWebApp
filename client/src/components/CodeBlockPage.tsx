@@ -6,7 +6,7 @@ import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript'; // language support for JavaScript
 
-const socket = io('http://localhost:4000');
+const socket = io('https://nameless-castle-05322-06fd1ac1f6f0.herokuapp.com');
 
 const CodeBlockPage = () => {
   const codeBlockId = window.location.pathname.split('/').pop(); // extract block ID from URL
