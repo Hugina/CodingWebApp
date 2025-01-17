@@ -1,0 +1,40 @@
+variables:
+  DOCKER_DRIVE: overlay2
+
+image: node:10-alpine
+
+services:
+  - docker:dind
+
+stages:
+  - dependencies
+  - stylecheck
+
+cache:
+  key: "$CI_BUILD_REF_SLUG"
+  paths:
+    - node_modules/
+
+install_dependencies:
+  stage: dependencies
+  before_script:
+    - node -v
+    - npm -v
+  script:
+    - npm install
+  after_script:
+    - ./node_modules/.bin/tsc -v
+
+do_format_check:
+  stage: stylecheck
+  before_script:
+    - npm install
+  script:
+    - npm run prettier:check
+
+do_lint_check:
+  stage: stylecheck
+  before_script:
+    - npm install
+  script:
+    - npm run lint

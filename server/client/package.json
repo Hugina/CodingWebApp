@@ -1,0 +1,58 @@
+{
+  "name": "react-with-typescript",
+  "version": "1.0.0",
+  "main": "src/index.tsx",
+  "author": "Loc Nguyen, lochnguyen@gmail.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/locnguyen/react-with-typescript"
+  },
+  "scripts": {
+    "start": "webpack serve --config ./webpack.config.js",
+    "prettier": "prettier \"src/**/*.{ts,tsx,js,jsx}\"",
+    "prettier:check": "npm run prettier -- --list-different",
+    "prettier:write": "npm run prettier -- --write",
+    "lint": "tslint -c \"tslint.json\" -e \"node_modules/**/*\" --project \"tsconfig.json\" \"./src/**/*.ts*\""
+  },
+  "dependencies": {
+    "17": "^0.0.0",
+    "@codemirror/lang-javascript": "^6.2.2",
+    "@types/react-dom": "^19.0.3",
+    "@uiw/react-codemirror": "^4.23.7",
+    "bootstrap": "^5.3.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.1.1",
+    "react-syntax-highlighter": "^15.6.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
+    "@types/history": "^4.7.0",
+    "@types/node": "^10.11.0",
+    "@types/react": "^19.0.5",
+    "@types/react-hot-loader": "^4.1.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "@types/webpack-env": "^1.13.6",
+    "babel-loader": "^8.0.2",
+    "css-loader": "^7.1.2",
+    "fork-ts-checker-webpack-plugin": "^9.0.2",
+    "html-webpack-plugin": "^5.6.3",
+    "prettier": "^1.14.3",
+    "react-refresh": "^0.16.0",
+    "sass": "^1.83.0",
+    "sass-loader": "^16.0.4",
+    "socket.io-client": "^4.8.1",
+    "source-map-loader": "^0.2.1",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
+    "tslint": "^5.11.0",
+    "tslint-microsoft-contrib": "^5.2.1",
+    "typescript": "^3.0.3",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
+  }
+}

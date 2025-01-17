@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import CodeMirror from '@uiw/react-codemirror'; // Import CodeMirror
-import { javascript } from '@codemirror/lang-javascript'; // Language support for JavaScript
+import CodeMirror from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript'; // language support for JavaScript
 
-const socket = io('http://localhost:4000'); // Ensure this matches your server URL
+const socket = io('http://localhost:4000');
 
 const CodeBlockPage = () => {
-  const codeBlockId = window.location.pathname.split('/').pop(); // Extract block ID from URL
+  const codeBlockId = window.location.pathname.split('/').pop(); // extract block ID from URL
   const [role, setRole] = useState('');
   const [code, setCode] = useState('');
   const [studentsInRoom, setStudentsInRoom] = useState(0);
@@ -40,7 +40,7 @@ const CodeBlockPage = () => {
       window.location.href = '/';
     });
 
-    // Set the solution for the current code block
+    // set the solution for the current code block
     if (codeBlockId === '1') {
       setSolution('console.log("Hello, World!");');
     } else if (codeBlockId === '2') {
@@ -62,7 +62,7 @@ const CodeBlockPage = () => {
   };
 
   const isCorrectSolution = (currentCode: string) => {
-    // Normalize and compare the code
+    //remove comments and whitespace from the code using regular expressions (/../g because it searched globally not just the first instance)
     const normalize = (str: string) => str.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '').trim();
     return normalize(currentCode) === normalize(solution);
   };
