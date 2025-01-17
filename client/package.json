@@ -10,6 +10,7 @@
   },
   "scripts": {
     "start": "webpack serve --config ./webpack.config.js",
+    "build": "webpack --config ./webpack.config.js",
     "prettier": "prettier \"src/**/*.{ts,tsx,js,jsx}\"",
     "prettier:check": "npm run prettier -- --list-different",
     "prettier:write": "npm run prettier -- --write",
